@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazılım Mühendisliği Final Notları</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --bg: #f5f6fa;
+            --card-bg: #ffffff;
+            --text: #2f3640;
+            --border: #dcdde1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        header h1:hover {
+            color: #bdc3c7;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            width: 100%;
+        }
+
+        .page {
+            display: none;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            animation: fadeIn 0.4s ease-in-out;
+            margin-bottom: 2rem;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            background-color: #ecf0f1;
+            padding: 0.5rem 1rem;
+            border-left: 4px solid var(--accent);
+            border-radius: 0 4px 4px 0;
+        }
+
+        ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        strong {
+            color: #2980b9;
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .home-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .home-card:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            border-color: var(--accent);
+        }
+
+        .home-card h3 {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0 0 0.5rem 0;
+            color: inherit;
+            font-size: 1.2rem;
+        }
+
+        .home-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .navigation-controls {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto 2rem auto;
+            padding: 0 1rem;
+            width: 100%;
+            position: sticky;
+            bottom: 20px;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-home {
+            background-color: var(--primary);
+        }
+        
+        .btn-home:hover {
+            background-color: var(--secondary);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="page-0" class="page active">
+            <h2>İçindekiler / Ana Sayfa</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.1rem;">Aşağıdaki modüllerden çalışmak istediğiniz konuyu seçin veya sayfa altındaki ok tuşlarıyla tüm notları sırayla okuyun.</p>
+            <div class="home-grid">
+                <div class="home-card" onclick="goToPage(1)">
+                    <h3>1. Mimari Tasarım (Bölüm 6)</h3>
+                    <p>Temeller, Avantajlar, Mimari Görünümler ve Mimari Desenler (Katmanlı, Ambar, İstemci-Sunucu, Boru-Süzgeç)</p>
+                </div>
+                <div class="home-card" onclick="goToPage(2)">
+                    <h3>2. Tasarım ve Gerçekleştirim (Bölüm 7 - Kısım 1)</h3>
+                    <p>Nesne Yönelimli Tasarım (NYT), Sınıf Belirleme, UML Diyagramları, Arayüzler ve Tasarım Desenleri</p>
+                </div>
+                <div class="home-card" onclick="goToPage(3)">
+                    <h3>3. Kodlama ve Açık Kaynak (Bölüm 7 - Kısım 2)</h3>
+                    <p>Yeniden Kullanım, Konfigürasyon Yönetimi, Konakçı-Hedef Geliştirme, Açık Kaynak Lisanslama (GPL, LGPL, BSD)</p>
+                </div>
+                <div class="home-card" onclick="goToPage(4)">
+                    <h3>4. Yazılım Testi (Bölüm 8 - Kısım 1)</h3>
+                    <p>Geçerleme ve Doğrulama, Yazılım Denetimi vs Dinamik Test, Geliştirme Testleri, Birim (Unit) Test Stratejileri</p>
+                </div>
+                <div class="home-card" onclick="goToPage(5)">
+                    <h3>5. İleri Yazılım Testi (Bölüm 8 - Kısım 2)</h3>
+                    <p>Bileşen ve Sistem Testi, Test Güdümlü Geliştirme (TDD), Dağıtım Testi (Stres), Kullanıcı Testleri (Alfa, Beta, Kabul)</p>
+                </div>
+                <div class="home-card" onclick="goToPage(6)">
+                    <h3>6. Evrim ve Kalıt Sistemler (Bölüm 9 - Kısım 1)</h3>
+                    <p>Yazılım Evrimi, Çevik Evrim Zorlukları, Kalıt (Legacy) Sistemler Nedir, Değerlendirme Matrisi (4 Kategori)</p>
+                </div>
+                <div class="home-card" onclick="goToPage(7)">
+                    <h3>7. Bakım ve Yeniden Mühendislik (Bölüm 9 - Kısım 2)</h3>
+                    <p>Yazılım Bakım Türleri, Maliyet Nedenleri, Yeniden Mühendislik (Re-engineering) Süreci, Yeniden Düzenleme (Refactoring)</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-1" class="page">
+            <h2>Bölüm 6: Mimari Tasarım (Sayfa 1-26)</h2>
+            
+            <h3>Mimari Tasarımın Tanımı ve Kapsamı</h3>
+            <p>Yazılım projelerinde mimari tasarım, yazılım sistemini oluşturan bileşenlerin kendi içinde nasıl organize edilmesi gerektiğini anlama ve sistemin genel yapısının tasarım sürecidir. Gereksinim mühendisliği aşaması ile tasarım aşaması arasında bir köprü görevi görür. Mimarinin yapısını sonradan değiştirmek veya yeniden düzenlemek, sistemdeki birçok bileşeni etkileyeceği için genellikle oldukça pahalıya mal olur.</p>
+            
+            <h3>Mimari Tasarımın 3 Temel Avantajı</h3>
+            <ul>
+                <li><strong>Paydaş İletişimi:</strong> Geliştirilen mimari, sistemdeki tüm paydaşlar tarafından bir tartışma ve ortak uzlaşma odağı olarak kullanılır.</li>
+                <li><strong>Sistem Analizi:</strong> Sistemin performans, güvenlik gibi işlevsel olmayan gereksinimlerini karşılayıp karşılayamayacağının erken aşamada analiz edilmesini mümkün kılar.</li>
+                <li><strong>Büyük Ölçekli Yeniden Kullanım:</strong> Oluşturulan mimari kalıp, benzer nitelikteki başka sistemlerde tekrar kullanılabilir bir temel oluşturur.</li>
+            </ul>
+
+            <h3>Fonksiyonel Olmayan Gereksinimlerin Mimariye Etkisi</h3>
+            <ul>
+                <li><strong>Performans:</strong> İletişim en aza indirilmeli, çok sayıda küçük bileşen yerine az sayıda büyük bileşen kullanılmalıdır.</li>
+                <li><strong>Güvenlik (Security):</strong> Kritik varlıklar, katmanlı mimaride en iç katmanlara yerleştirilmelidir.</li>
+                <li><strong>Emniyet (Safety):</strong> Güvenlik açısından kritik özellikler az sayıda alt sisteme yerelleştirilmelidir.</li>
+                <li><strong>Erişilebilirlik (Availability):</strong> Hata toleransı sağlamak adına yedek bileşenler eklenmelidir.</li>
+                <li><strong>Bakım Kolaylığı (Maintainability):</strong> Sistem, küçük parçalı ve kolay değiştirilebilir bileşenlerden oluşmalıdır.</li>
+            </ul>
+
+            <h3>Dört Temel Mimari Görünüm</h3>
+            <ul>
+                <li><strong>Mantıksal Görünüm:</strong> Soyutlamaları nesne veya nesne sınıfı olarak gösterir.</li>
+                <li><strong>Süreç Görünümü:</strong> Etkileşen süreçlerin yapılanmasını ifade eder.</li>
+                <li><strong>Geliştirme Görünümü:</strong> Yazılımın geliştirilmek üzere modüllere veya paketlere nasıl ayrıştırıldığını belirtir.</li>
+                <li><strong>Fiziksel Görünüm:</strong> Donanım ve yazılım bileşenlerinin işlemciler veya sunucular arasında nasıl dağıtıldığını gösterir.</li>
+            </ul>
+
+            <h3>Mimari Desenler (Stiller)</h3>
+            <p>Mimari desen, farklı ortamlarda başarılı olmuş iyi tasarım uygulamalarının genelleştirilmiş, soyut bir betimlemesidir.</p>
+            <ul>
+                <li><strong>Katmanlı Mimari:</strong> Alt sistemlere ait arayüz modellemesinde kullanılır. Her katman bir dizi hizmet sunar. Bir katman değiştiğinde sadece o katmana komşu olan katman etkilenir.</li>
+                <li><strong>Ambar Mimarisi:</strong> Büyük miktarda verinin paylaşıldığı durumlarda yaygındır. Veriler merkezi bir veritabanında (ambarda) tutulur ve tüm alt sistemler buraya erişir.</li>
+                <li><strong>İstemci Sunucu Mimarisi:</strong> Belirli hizmetleri sunan sunucular ve bu hizmetleri ağ üzerinden çağıran istemcilerden oluşur. Tüm sistem etkilenmeden sunucular değiştirilebilir.</li>
+                <li><strong>Boru ve Süzgeç Mimarisi:</strong> Girdi verisi bir süreçten diğerine akar. Her süzgeç veriyi işleyip dönüştürerek bir sonrakine iletir. (Unix komut satırı mantığı).</li>
+            </ul>
+
+            <h3>Uygulama Mimarileri ve Sistem Tipleri</h3>
+            <ul>
+                <li><strong>Hareket (Transaction) İşleme Sistemleri:</strong> Veritabanından bilgi alma veya güncelleme taleplerini işler (Örn: E-ticaret platformları, rezervasyon sistemleri).</li>
+                <li><strong>Bilgi Sistemleri:</strong> İşlem tabanlıdır. Genellikle web sunucusu, uygulama sunucusu ve veritabanından oluşan çok katmanlı yapıdadır.</li>
+                <li><strong>Dil İşleme Sistemleri:</strong> Bir dili analiz ederek alternatif bir gösterime çeviren sistemlerdir (Örn: Programlama dili derleyicileri - Compilers).</li>
+            </ul>
+        </div>
+
+        <div id="page-2" class="page">
+            <h2>Bölüm 7: Tasarım ve Gerçekleştirim (Sayfa 27-59)</h2>
+            
+            <h3>Tasarım ve Gerçekleştirim (Temel Kavramlar)</h3>
+            <p><strong>Tasarım</strong>, müşteri gereksinimlerine göre yazılım bileşenlerinin ve aralarındaki ilişkilerin tanımlandığı yaratıcı süreçtir. <strong>Gerçekleştirim</strong> ise, bu tasarımın bir programlama dili aracılığıyla koda ve çalıştırılabilir bir programa dönüştürülmesidir. Maliyet düşürmek için sıfırdan geliştirmek yerine hazır sistem satın alınabilir veya açık kaynak kullanılabilir.</p>
+
+            <h3>UML Kullanarak Nesne Yönelimli Tasarım (5 Aşama)</h3>
+            <p>Nesne yönelimli tasarım, gerçek dünya nesneleri ile sistemdeki soyut nesneler arasında bağlantı kurar. Temel 5 aşaması vardır:</p>
+            <ol>
+                <li>Sistemin bağlamı ve dış etkileşimleri tanımlanır.</li>
+                <li>Sistem mimarisi tasarlanır.</li>
+                <li>Sistemin temel nesne sınıfları belirlenir.</li>
+                <li>Tasarım modelleri geliştirilir.</li>
+                <li>Nesne arayüzlerinin ayrıntıları belirlenir.</li>
+            </ol>
+
+            <h3>Sistem Bağlamı ve Etkileşimler</h3>
+            <p>Yazılımın çevresiyle, kullanıcılarla ve diğer dış sistemlerle nasıl etkileşime gireceğini gösterir. Sistemin sınırlarını belirlemek için kritik adımdır. UML'de bunu modellemek için genellikle <strong>Kullanım Durumu (Use Case)</strong> modelleri kullanılır.</p>
+
+            <h3>Nesne Sınıfı Belirleme Yaklaşımları</h3>
+            <p>Sınıfları belirlemek için veri tabanı tabloları DİKKATE ALINMAZ. Bunun yerine şu yollar izlenir:</p>
+            <ul>
+                <li>Doğal dille yazılmış gereksinim tanımının gramer analizi (İsimler sınıf, fiiller metot olur).</li>
+                <li>Uygulama alanındaki somut donanımların/varlıkların temel alınması (Sensör, banka hesabı vb.).</li>
+                <li>Senaryo tabanlı bir analiz kullanılması.</li>
+            </ul>
+
+            <h3>Tasarım Modelleri (Yapısal ve Dinamik)</h3>
+            <ul>
+                <li><strong>Yapısal (Durağan) Modeller:</strong> Sistemin sabit yapısını gösterir. Örn: Alt Sistem Modelleri. Sınıfların nasıl gruplandığını açıklar.</li>
+                <li><strong>Dinamik Modeller:</strong>
+                    <ul>
+                        <li><strong>Sıra Modelleri (Sequence Diagrams):</strong> Nesne etkileşimlerinin zamana ve sıraya dayalı akışını (yukarıdan aşağıya mesajlaşmaları) gösterir.</li>
+                        <li><strong>Durum Makinesi (State Machine):</strong> Nesnelerin olaylara/isteklere nasıl tepki verdiğini ve geçirdikleri durum (state) geçişlerini gösterir.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Arayüz Spesifikasyonları</h3>
+            <p>Bileşenlerin bağımsız geliştirilebilmesi için arayüzler tanımlanır. Arayüz; metot isimlerini, girdi ve çıktı parametrelerini içermelidir. Ancak işlemin arka plandaki çalışma mantığı veya <strong>veri gösterim detayı (gerçekleştirim detayı) kesinlikle arayüzün dışında bırakılmalıdır.</strong></p>
+
+            <h3>Tasarım Desenleri (Design Patterns)</h3>
+            <p>Önceden projelerde kullanılmış, başarısı kanıtlanmış ortak problem çözümlerinin yeniden kullanımı için oluşturulmuş "soyut şablonlardır". İlk olarak "Dörtler Çetesi (Gang of Four)" tarafından çıkarılmıştır. Bir desen 4 temel öğeden oluşur: <strong>İsim, Problem, Çözüm, Sonuçlar.</strong><br>
+            <em>Örnek - Gözlemci (Observer) Deseni:</em> Sistemde bir nesnenin durumu değiştiğinde, ona bağımlı olan (onu gözlemleyen) tüm nesnelerin otomatik olarak uyarılmasını sağlayan yapıdır.</p>
+        </div>
+
+        <div id="page-3" class="page">
+            <h2>Bölüm 7: Gerçekleştirim (Sayfa 60-81)</h2>
+            
+            <h3>Yeniden Kullanım (Reuse)</h3>
+            <p>Modern yazılımlar genellikle sıfırdan yazılmak yerine mevcut bileşenlerin yeniden kullanılmasıyla oluşturulur. Avantajları: Hızlı geliştirme, düşük maliyet ve yüksek güvenilirliktir. Dezavantajları: Uygun bileşeni arama, satın alma, konfigürasyon ve sisteme entegrasyon maliyetleridir.</p>
+            <ul>
+                <li><strong>Soyutlama Düzeyi:</strong> Kod değil, mimari desenler gibi tasarım şablonları tekrar kullanılır.</li>
+                <li><strong>Nesne Düzeyi:</strong> Bir kütüphanedeki hazır sınıflar kullanılır.</li>
+                <li><strong>Bileşen Düzeyi:</strong> Belli bir işlevi yerine getiren nesne koleksiyonları kullanılır.</li>
+                <li><strong>Sistem Düzeyi:</strong> Uygulama sisteminin tamamı yeniden kullanılır.</li>
+            </ul>
+
+            <h3>Konfigürasyon Yönetimi (4 Faaliyet)</h3>
+            <p>Değişen yazılım kodunun koordineli yönetilmesidir.</p>
+            <ol>
+                <li><strong>Sürüm Yönetimi:</strong> Geliştiricilerin kod çakışması yaşamadan çalışması için yazılım sürümlerini takip eder (Git vb.).</li>
+                <li><strong>Sistem Bütünleştirme:</strong> Kodların birleşip otomatik derlenmesini sağlar.</li>
+                <li><strong>Problem İzleme:</strong> Hataların kim tarafından, ne zaman çözüleceğini takip eder.</li>
+                <li><strong>Dağıtım Yönetimi:</strong> Sürümlerin kullanıcı için paketlenmesi ve yayınlanmasıdır.</li>
+            </ol>
+
+            <h3>Konakçı Hedef Geliştirme (Host-Target Development)</h3>
+            <p>Yazılımın bir bilgisayarda (Konakçı/Host) kodlanıp derlenmesi, ancak farklı bir donanımda (Hedef/Target) çalıştırılması sürecidir.</p>
+
+            <h3>Açık Kaynak Geliştirme ve Lisanslama</h3>
+            <p>Kaynak kodun yayınlanarak gönüllüler tarafından geliştirildiği yöntemdir. Lisanslar çok önemlidir:</p>
+            <ul>
+                <li><strong>GPL (GNU Genel Kamu Lisansı):</strong> Karşılıklı (bulaşıcı) lisanstır. GPL kodu kullanırsanız, kendi geliştirdiğiniz yazılımı da tamamen açık kaynak yapmak ZORUNDASINIZ.</li>
+                <li><strong>LGPL (GNU Kısıtlı Genel Kamu Lisansı):</strong> Sadece bağlanan açık kaynak bileşenlerin lisansını kapsar. Kendi özel kodunuzu açık kaynak yapmak zorunda olmadığınız esnek yapıdır.</li>
+                <li><strong>BSD (Berkley Standart Dağıtım Lisansı):</strong> Karşılıklı OLMAYAN lisanstır. Değişiklik yapsanız dahi kodu yeniden yayınlamak zorunda değilsiniz. Satılan kapalı ticari sistemlere dahil edilebilir.</li>
+            </ul>
+        </div>
+
+        <div id="page-4" class="page">
+            <h2>Bölüm 8: Yazılım Testi - 1. Kısım (Sayfa 82-105)</h2>
+
+            <h3>Yazılım Testinin Amacı (2 Temel Tür)</h3>
+            <ul>
+                <li><strong>Geçerleme (Validation) Testi:</strong> Geliştiriciye ve müşteriye yazılımın gereksinimleri başarıyla karşıladığını göstermek içindir.</li>
+                <li><strong>Kusur (Defect) Testi:</strong> Yazılımın içindeki hataları, anormallikleri veya spesifikasyona uymayan kusurları yapay verilerle bulmayı hedefler.</li>
+            </ul>
+
+            <h3>Doğrulama ve Geçerleme (V&V)</h3>
+            <ul>
+                <li><strong>Doğrulama (Verification):</strong> "Doğru ürünü geliştiriyor muyuz?" Sorusunu sorar. Teknik gereksinimlerin karşılanıp karşılanmadığını inceler.</li>
+                <li><strong>Geçerleme (Validation):</strong> "Ürünü doğru şekilde geliştiriyor muyuz?" Sorusunu sorar. Geliştirilen sistemin müşteri isteklerini karşıladığından emin olur.</li>
+            </ul>
+
+            <h3>Yazılım Denetimi (Statik) ile Test (Dinamik) Karşılaştırması</h3>
+            <ul>
+                <li><strong>Yazılım Denetimleri (Inspections):</strong> Kod çalıştırılmadan modeller ve dokümanlar üzerinde yapılan incelemelerdir (Statik). En büyük avantajı, dinamik testte bir hatanın başka bir hatayı gizleme (kamufle etme) ihtimalini ortadan kaldırmasıdır.</li>
+                <li><strong>Yazılım Testi:</strong> Sistemin çalıştırılıp dinamik davranışlarının doğrudan izlenmesidir.</li>
+            </ul>
+
+            <h3>Temel Test Aşamaları ve Geliştirme Testleri Hiyerarşisi</h3>
+            <p>Ticari sistemlerde; <em>Geliştirme Testi, Dağıtım Testi ve Kullanıcı Testi</em> adımları uygulanır. Geliştirme testi kendi içinde üçe ayrılır:</p>
+            <ol>
+                <li><strong>Birim (Unit) Testi:</strong> Bağımsız sınıf ve fonksiyonların kendi başlarına test edilmesidir.</li>
+                <li><strong>Bileşen (Component) Testi:</strong> Birimlerin birleşmesiyle oluşan arayüzlerin test edilmesidir.</li>
+                <li><strong>Sistem Testi:</strong> Tüm bileşenlerin bir araya gelmesiyle oluşan bütün sistemin etkileşim testidir.</li>
+            </ol>
+
+            <h3>Birim Testi Stratejileri</h3>
+            <p>Bir nesneyi tam test etmek için tüm özelliklerine değerler atanmalı ve metotları çalıştırılmalıdır.</p>
+            <ul>
+                <li><strong>Bölünme (Partition) Testi:</strong> Aynı sonuçları verecek olan girdi verileri gruplandırılır. O gruptaki tüm verileri denemek yerine bir örnek/temsilci seçilip test edilir.</li>
+                <li><strong>Kılavuzlara Dayalı Test:</strong> Belli mantık kuralları uygulanır. Özellikle listenin/dizinin sıfır elemanlı olması (boş), veya uç noktalara (ilk/son eleman) erişim ihtimalleri denenmelidir.</li>
+            </ul>
+        </div>
+
+        <div id="page-5" class="page">
+            <h2>Bölüm 8: Yazılım Testi - 2. Kısım (Sayfa 106-133)</h2>
+
+            <h3>Bileşen Testi ve Arayüzler</h3>
+            <p>Bileşik arayüzlerin test edilmesidir. Arayüz tipleri parametre geçişi, paylaşılan bellek, mesaj geçişi vb. olabilir. Olası arayüz hataları; arayüzün yanlış kullanılması veya bileşenler arası zamanlama hatalarıdır. Her zaman null işaretçiler ve aralıkların uç noktaları denenmelidir.</p>
+
+            <h3>Sistem Testi</h3>
+            <p>Dışarıdan alınan modüller de dâhil tüm sistemin entegre edilip test edilmesidir. En büyük özelliği, bileşenler arası <strong>etkileşimlere ve ortaya çıkan (emergent) davranışa</strong> odaklanmasıdır. Tüm yolları denemek imkânsız olduğu için "Kullanım Durumu (Use Case)" bazlı test önerilir.</p>
+
+            <h3>Test Güdümlü Geliştirme (TDD)</h3>
+            <p>Çevik (Agile) yöntemlerde koddan önce testin yazıldığı süreçtir. Dört temel yararı vardır:</p>
+            <ol>
+                <li><strong>Kod Kapsamı:</strong> Her kod parçasının mutlaka bir testi olur.</li>
+                <li><strong>Gerileme (Regression) Testi:</strong> Kod değiştikçe eski yapının bozulmadığını kontrol eden hazır bir otomatik test takımı oluşur.</li>
+                <li><strong>Basitleştirilmiş Hata Ayıklama:</strong> Sorunun nerede çıktığı testlerden anında bulunur.</li>
+                <li><strong>Sistem Belgeleri:</strong> Yazılan testler sistem dokümantasyonu işlevi görür.</li>
+            </ol>
+
+            <h3>Dağıtım (Release) Testi</h3>
+            <p>Geliştiricilerden BAĞIMSIZ bir ekip tarafından yazılımın müşteriye çıkmaya hazır olduğunu kanıtlamak için yapılan Kara-Kutu testidir. Kusur bulmaktan ziyade gereksinimlerin sağlandığı doğrulanır.<br>
+            <strong>Stres Testi:</strong> Dağıtım testlerinde uygulanır. Performans testinin kasıtlı sınırlarının dışına çıkılarak sistemin çökene kadar aşırı yüklenmesi, çöktüğündeki "başarısızlık anındaki davranışının" belirlenmesi işlemidir.</p>
+
+            <h3>Kullanıcı Testi Türleri</h3>
+            <p>Müşterilerin/Son kullanıcıların dâhil olduğu son aşamadır:</p>
+            <ul>
+                <li><strong>Alfa Testi:</strong> Kullanıcıların "geliştirici ortamında", yapımcılarla birlikte test etmesidir.</li>
+                <li><strong>Beta Testi:</strong> Yazılımın kendi ortamlarında denemeleri için geniş ve dış kitlelere açılmasıdır.</li>
+                <li><strong>Kabul Testi:</strong> Yazılımın müşteriye tesliminden hemen önce 6 aşamalı (kriter belirleme, planlama, türetme, çalıştırma, tartışma, kabul/ret) yapılan resmi onay testidir.</li>
+            </ul>
+        </div>
+
+        <div id="page-6" class="page">
+            <h2>Bölüm 9: Yazılım Evrimi ve Kalıt Sistemler (Sayfa 133-162)</h2>
+
+            <h3>Yazılım Evrimi</h3>
+            <p>Şirketler bütçelerinin büyük çoğunluğunu sıfırdan yazılım yapmaya değil, mevcut sistemleri yeni gereksinimlere evrimleştirmeye harcarlar.<br>
+            <strong>Acil Onarım:</strong> Beklenmedik çökmelerde normal evrim planının dışına çıkılıp doğrudan acil kod değişikliği yapılmasıdır.</p>
+            <p><strong>Evrim ve Yöntem Uyuşmazlığı:</strong> Yazılımı geliştiren ekip ile evrimleştiren/bakım yapan ekip farklıysa sorun çıkar. Geliştiriciler Çevik (Agile) kullanıp belgelendirme yapmadıysa, bakım ekibi Plan-Güdümlü sisteme alışkınsa sistemi anlamaları ve evrimleştirmeleri çok zor olacaktır.</p>
+
+            <h3>Kalıt (Legacy) Sistemler Nedir?</h3>
+            <p>Eski programlama dillerine ve donanımlara (ana bilgisayarlar vb.) dayanan ancak şirket için çok kritik olan eski sosyo-teknik sistemlerdir. (İş kuralları ve verileri de kapsar.) Bakımları veya değiştirilmeleri aşırı risklidir çünkü kod yapıları bozulmuştur, eski dili bilen kalmamıştır ve dokümantasyon yoktur.</p>
+
+            <h3>Kalıt Sistem Değerlendirme Matrisi (ÖNEMLİ)</h3>
+            <p>Bir kurum elindeki eski kalıt sistemi ne yapacağına şu 4 kurala göre karar verir:</p>
+            <ul>
+                <li><strong>Düşük Kalite, Düşük İş Değeri:</strong> Hem işe yaramıyor hem bozuk. Sistem kullanımdan kaldırılmalıdır.</li>
+                <li><strong>Düşük Kalite, Yüksek İş Değeri:</strong> Şirket için çok önemli ama bakımı aşırı pahalı. Bu sisteme <strong>Yeniden Mühendislik (Re-engineering)</strong> yapılmalı veya acilen değiştirilmelidir.</li>
+                <li><strong>Yüksek Kalite, Düşük İş Değeri:</strong> Bakımı kolay ama fazla kullanılmıyor. Hazır bir paket (COTS) sistemle değiştirilebilir veya aynen bırakılabilir.</li>
+                <li><strong>Yüksek Kalite, Yüksek İş Değeri:</strong> Normal sistem bakımı uygulanarak kullanımına devam edilmelidir.</li>
+            </ul>
+        </div>
+
+        <div id="page-7" class="page">
+            <h2>Bölüm 9: Bakım ve Yeniden Mühendislik (Sayfa 164-183)</h2>
+
+            <h3>Yazılım Bakımı (Software Maintenance)</h3>
+            <p>Program teslim edilip kullanıma sunulduktan sonra üzerinde değişiklik yapılması sürecidir. Mimaride devasa değişiklik yapılmaz. Üç türü vardır:</p>
+            <ul>
+                <li><strong>Hata Onarımları (Düzeltici):</strong> Kod, mantık veya güvenlik kusurlarını onarmak.</li>
+                <li><strong>Ortama Uyarlama:</strong> İşletim sistemi, donanım veya altyapı değiştiğinde yazılımı uydurmak.</li>
+                <li><strong>İşlevsellik Ekleme:</strong> Yeni gereksinimleri karşılamak.</li>
+            </ul>
+            <p><strong>Bakım Maliyeti:</strong> Sıfırdan geliştirmenin 2 ila 100 katına çıkabilir. Sistem eskidikçe ve yamalar eklendikçe yapısı bozulur, kodları kimse anlamaz. Bakım işleri yazılımcılar arasında sevilmediği için genelde tecrübesiz ekiplere verilir bu da maliyeti artırır.</p>
+
+            <h3>Değişiklik Tahminleme</h3>
+            <p>Hangi bileşenin sorun çıkaracağını tahmin etmek bütçe için önemlidir. Değişiklik sayısını ve süresini ölçerek "Bakım Kolaylığı" ölçülür. Düzeltici bakım isteklerindeki süre artışı bakım kolaylığının azaldığına işarettir.</p>
+
+            <h3>Yeniden Yazılım Mühendisliği (Re-engineering)</h3>
+            <p>Bakım kolaylığını tamamen yitirmiş eski sistemin (Kalıt Sistemin), <strong>işlevselliği kesinlikle değiştirilmeden</strong> sadece mimari ve teknolojik olarak yeniden yapılandırılıp modern bir yapıya geçirilmesidir. Sıfırdan yazmaktan daha ucuz ve az risklidir. Kod çevirimi, tersine mühendislik ve veri temizleme süreçlerini içerir.</p>
+
+            <h3>Yeniden Düzenleme / Üretim (Refactoring)</h3>
+            <p>Yazılım değiştirildikçe oluşan bozulmaları engellemek için kod yapısında yapılan "önleyici bakım" / iyileştirme işlemidir. <strong>Programa hiçbir yeni özellik eklenmez</strong>, sadece kodun içi temizlenir. Yeniden mühendislik sistem çöktükten/eskidikten sonra yapılırken; Refactoring yazılımın tüm yaşamı boyunca sürekli yapılır.</p>
+            <p><strong>Refactoring Örnekleri:</strong></p>
+            <ul>
+                <li>Yinelenen (kopya) kodların tek bir metoda bağlanması.</li>
+                <li>Çok uzun metotların daha kısa metotlara parçalanması.</li>
+                <li>Uzun switch-case yapıları yerine çok biçimli (polymorphic) tasarımların kullanılması.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="navigation-controls">
+        <button id="btnPrev" onclick="navigate(-1)">&#8592; Önceki</button>
+        <button class="btn-home" onclick="goToPage(0)">Ana Sayfa</button>
+        <button id="btnNext" onclick="navigate(1)">Sonraki &#8594;</button>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 7;
+
+        function updateButtons() {
+            document.getElementById("btnPrev").disabled = (currentPage === 0);
+            document.getElementById("btnNext").disabled = (currentPage === totalPages);
+        }
+
+        function showPage(pageIndex) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('page-' + pageIndex).classList.add('active');
+            currentPage = pageIndex;
+            updateButtons();
+            window.scrollTo(0, 0); 
+        }
+
+        function navigate(direction) {
+            let targetPage = currentPage + direction;
+            if (targetPage >= 0 && targetPage <= totalPages) {
+                showPage(targetPage);
+            }
+        }
+
+        function goToPage(pageIndex) {
+            showPage(pageIndex);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                navigate(-1);
+            } else if (event.key === 'ArrowRight') {
+                navigate(1);
+            }
+        });
+
+        updateButtons();
+    </script>
+</body>
+</html>
