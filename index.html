@@ -402,83 +402,122 @@
             </ul>
         </div>
 
-        <div id="page-5" class="page">
-            <h2>Bölüm 8: Yazılım Testi - 2. Kısım (Sayfa 106-133)</h2>
+       <div id="page-5" class="page">
+            <h2>Bölüm 8: İleri Yazılım Testi (Sayfa 106-133)</h2>
 
-            <h3>Bileşen Testi ve Arayüzler</h3>
-            <p>Bileşik arayüzlerin test edilmesidir. Arayüz tipleri parametre geçişi, paylaşılan bellek, mesaj geçişi vb. olabilir. Olası arayüz hataları; arayüzün yanlış kullanılması veya bileşenler arası zamanlama hatalarıdır. Her zaman null işaretçiler ve aralıkların uç noktaları denenmelidir.</p>
+            <h3>Bileşen Testi (Component Testing)</h3>
+            <p>Birimlerin birleştirilmesiyle oluşan bileşik bileşenlerin test edilmesidir. Ana odak noktası, bileşenlerin kendi arayüzlerinin doğru davranıp davranmadığıdır.</p>
+            <ul>
+                <li><strong>Arayüz Tipleri:</strong> Parametre geçişi, paylaşılan bellek, prosedürel arabirimler ve mesaj geçiş arayüzleri.</li>
+                <li><strong>Arayüz Hataları:</strong> Arayüzün yanlış kullanımı, özelliklerinin yanlış anlaşılması ve çağrılan bileşenler arasındaki zamanlama hatalarıdır.</li>
+                <li><strong>Test Stratejisi:</strong> Kılavuzlara göre test aralığının en uç noktaları (extreme points) denenmeli, her zaman "null" (boş) işaretçiler test edilmeli ve zamanlama hatalarını yakalamak için paylaşılan bellek sistemlerinde bileşenlerin çalışma sırası değiştirilmelidir.</li>
+            </ul>
 
             <h3>Sistem Testi</h3>
-            <p>Dışarıdan alınan modüller de dâhil tüm sistemin entegre edilip test edilmesidir. En büyük özelliği, bileşenler arası <strong>etkileşimlere ve ortaya çıkan (emergent) davranışa</strong> odaklanmasıdır. Tüm yolları denemek imkânsız olduğu için "Kullanım Durumu (Use Case)" bazlı test önerilir.</p>
+            <p>Sistemi oluşturan tüm bileşenlerin (varsa hazır alınan dış bileşenler dâhil) entegre edilip birlikte test edilmesidir.</p>
+            <ul>
+                <li>Bileşen testinden farklı olarak daha geniş bir ekibi kapsar ve bileşenler arası <strong>etkileşimlere / ortaya çıkan davranışa (emergent behavior)</strong> odaklanır.</li>
+                <li>Olası tüm program yollarının test edilmesi mümkün olmadığı için "Kullanım Durumu (Use Case)" bazlı senaryo testleri tavsiye edilir.</li>
+            </ul>
 
-            <h3>Test Güdümlü Geliştirme (TDD)</h3>
-            <p>Çevik (Agile) yöntemlerde koddan önce testin yazıldığı süreçtir. Dört temel yararı vardır:</p>
+            <h3>Test Güdümlü Geliştirme (TDD - Test Driven Development)</h3>
+            <p>Çevik (Agile) yöntemlerde kod yazmadan önce testin yazıldığı ve geliştirmenin birbirine entegre ilerlediği süreçtir. Dört temel yararı vardır:</p>
             <ol>
-                <li><strong>Kod Kapsamı:</strong> Her kod parçasının mutlaka bir testi olur.</li>
-                <li><strong>Gerileme (Regression) Testi:</strong> Kod değiştikçe eski yapının bozulmadığını kontrol eden hazır bir otomatik test takımı oluşur.</li>
-                <li><strong>Basitleştirilmiş Hata Ayıklama:</strong> Sorunun nerede çıktığı testlerden anında bulunur.</li>
-                <li><strong>Sistem Belgeleri:</strong> Yazılan testler sistem dokümantasyonu işlevi görür.</li>
+                <li><strong>Kod Kapsamı:</strong> Her kodun en az bir testle ilişkilendirilmesini garantiler.</li>
+                <li><strong>Gerileme (Regression) Testi:</strong> Yazılım geliştikçe eski kısımların bozulmadığını kanıtlayan sürekli bir test takımı otomatik olarak oluşur.</li>
+                <li><strong>Basitleştirilmiş Hata Ayıklama:</strong> Bir test hata verdiğinde problemin yeri çok açıktır.</li>
+                <li><strong>Sistem Belgeleri:</strong> Yazılan test senaryoları aynı zamanda kodun ne yapması gerektiğini anlatan canlı bir belgedir.</li>
             </ol>
 
-            <h3>Dağıtım (Release) Testi</h3>
-            <p>Geliştiricilerden BAĞIMSIZ bir ekip tarafından yazılımın müşteriye çıkmaya hazır olduğunu kanıtlamak için yapılan Kara-Kutu testidir. Kusur bulmaktan ziyade gereksinimlerin sağlandığı doğrulanır.<br>
-            <strong>Stres Testi:</strong> Dağıtım testlerinde uygulanır. Performans testinin kasıtlı sınırlarının dışına çıkılarak sistemin çökene kadar aşırı yüklenmesi, çöktüğündeki "başarısızlık anındaki davranışının" belirlenmesi işlemidir.</p>
-
-            <h3>Kullanıcı Testi Türleri</h3>
-            <p>Müşterilerin/Son kullanıcıların dâhil olduğu son aşamadır:</p>
+            <h3>Dağıtım (Release) Testi ve Stres Testi</h3>
+            <p>Geliştirme ekibinden <strong>farklı ve bağımsız</strong> bir ekip tarafından yapılan, yazılımın müşteriye sunulacak kadar iyi olduğunu kanıtlamayı amaçlayan "kara kutu" (black-box) testidir. Kusur bulmaktan ziyade gereksinimlerin karşılandığı doğrulanır.</p>
             <ul>
-                <li><strong>Alfa Testi:</strong> Kullanıcıların "geliştirici ortamında", yapımcılarla birlikte test etmesidir.</li>
-                <li><strong>Beta Testi:</strong> Yazılımın kendi ortamlarında denemeleri için geniş ve dış kitlelere açılmasıdır.</li>
-                <li><strong>Kabul Testi:</strong> Yazılımın müşteriye tesliminden hemen önce 6 aşamalı (kriter belirleme, planlama, türetme, çalıştırma, tartışma, kabul/ret) yapılan resmi onay testidir.</li>
+                <li><strong>Stres Testi:</strong> Performans testinin kasıtlı bir uygulamasıdır. Sistemin kapasitesinin çok üzerine çıkılarak sistem aşırı yüklenir. Amaç, sistemin <strong>başarısızlık (çökme) anındaki davranışını</strong> belirlemektir.</li>
+            </ul>
+
+            <h3>Kullanıcı Testi (User Testing)</h3>
+            <p>Kapsamlı testler yapılsa bile yazılımın bizzat kullanıcıları tarafından test edilmesidir. Üç temel türü vardır:</p>
+            <ul>
+                <li><strong>Alfa Testi:</strong> Kullanıcıların, geliştirici ortamına gelerek yazılım ekibiyle birlikte sistemi test etmesidir.</li>
+                <li><strong>Beta Testi:</strong> Yazılımın bir sürümünün daha geniş, bilinmeyen bir kullanıcı kitlesine (kendi ortamlarında) açılması ve geri bildirim toplanmasıdır.</li>
+                <li><strong>Kabul Testi:</strong> Özel yazılımlarda müşterinin, sistemi resmi olarak teslim almadan hemen önce yaptığı onay testidir. <em>6 aşaması vardır: Kriter belirleme, planlama, test türetme, çalıştırma, sonuçları tartışma ve nihai kabul/ret.</em></li>
             </ul>
         </div>
 
         <div id="page-6" class="page">
             <h2>Bölüm 9: Yazılım Evrimi ve Kalıt Sistemler (Sayfa 133-162)</h2>
 
-            <h3>Yazılım Evrimi</h3>
-            <p>Şirketler bütçelerinin büyük çoğunluğunu sıfırdan yazılım yapmaya değil, mevcut sistemleri yeni gereksinimlere evrimleştirmeye harcarlar.<br>
-            <strong>Acil Onarım:</strong> Beklenmedik çökmelerde normal evrim planının dışına çıkılıp doğrudan acil kod değişikliği yapılmasıdır.</p>
-            <p><strong>Evrim ve Yöntem Uyuşmazlığı:</strong> Yazılımı geliştiren ekip ile evrimleştiren/bakım yapan ekip farklıysa sorun çıkar. Geliştiriciler Çevik (Agile) kullanıp belgelendirme yapmadıysa, bakım ekibi Plan-Güdümlü sisteme alışkınsa sistemi anlamaları ve evrimleştirmeleri çok zor olacaktır.</p>
-
-            <h3>Kalıt (Legacy) Sistemler Nedir?</h3>
-            <p>Eski programlama dillerine ve donanımlara (ana bilgisayarlar vb.) dayanan ancak şirket için çok kritik olan eski sosyo-teknik sistemlerdir. (İş kuralları ve verileri de kapsar.) Bakımları veya değiştirilmeleri aşırı risklidir çünkü kod yapıları bozulmuştur, eski dili bilen kalmamıştır ve dokümantasyon yoktur.</p>
-
-            <h3>Kalıt Sistem Değerlendirme Matrisi (ÖNEMLİ)</h3>
-            <p>Bir kurum elindeki eski kalıt sistemi ne yapacağına şu 4 kurala göre karar verir:</p>
+            <h3>Yazılım Evrimi (Software Evolution)</h3>
+            <p>Yazılımlarda değişiklik yapmak kaçınılmazdır. Büyük şirketler, yazılım bütçelerinin büyük bir kısmını sıfırdan yazılım geliştirmeye değil, mevcut yazılımlarını değiştirmeye ve evrimleştirmeye harcarlar.</p>
             <ul>
-                <li><strong>Düşük Kalite, Düşük İş Değeri:</strong> Hem işe yaramıyor hem bozuk. Sistem kullanımdan kaldırılmalıdır.</li>
-                <li><strong>Düşük Kalite, Yüksek İş Değeri:</strong> Şirket için çok önemli ama bakımı aşırı pahalı. Bu sisteme <strong>Yeniden Mühendislik (Re-engineering)</strong> yapılmalı veya acilen değiştirilmelidir.</li>
-                <li><strong>Yüksek Kalite, Düşük İş Değeri:</strong> Bakımı kolay ama fazla kullanılmıyor. Hazır bir paket (COTS) sistemle değiştirilebilir veya aynen bırakılabilir.</li>
-                <li><strong>Yüksek Kalite, Yüksek İş Değeri:</strong> Normal sistem bakımı uygulanarak kullanımına devam edilmelidir.</li>
+                <li><strong>Acil Onarım Süreci:</strong> Normalde evrim planlı ilerler, ancak ciddi bir sistem arızası, beklenmedik dış faktörler veya iş ortamındaki ani değişiklikler acil kod değişikliğini zorunlu kılabilir.</li>
+                <li><strong>Çevik ve Plan-Güdümlü Yöntem Uyuşmazlığı:</strong> Yazılımı <em>geliştiren</em> ekip ile <em>evrimleştiren/bakım yapan</em> ekip farklıysa sorunlar çıkar. Örneğin, geliştirici ekip Çevik (Agile) kullanıp dokümantasyon yapmadıysa; bakım ekibi de Plan-Güdümlü çalışmaya alışkınsa, sistemin yapısını anlamakta büyük zorluk çekerler.</li>
             </ul>
+
+            <h3>Kalıt Sistemler (Legacy Systems) Nedir?</h3>
+            <p>Artık yeni sistem geliştirme için kullanılmayan eski programlama dillerine, eski donanımlara (örneğin ana bilgisayarlara) dayanan ancak kuruluşlar için <strong>hala kritik olan</strong> sistemlerdir. Sadece koddan ibaret değillerdir; 6 temel bileşeni olan daha geniş <strong>sosyo-teknik</strong> sistemlerdir:</p>
+            <ul>
+                <li><strong>Sistem donanımı</strong> (Artık mevcut olmayan donanımlar)</li>
+                <li><strong>Destek yazılımı</strong> (Kullanılmayan/desteklenmeyen kütüphaneler vb.)</li>
+                <li><strong>Uygulama yazılımı</strong></li>
+                <li><strong>Uygulama verileri</strong></li>
+                <li><strong>İş süreçleri</strong></li>
+                <li><strong>İşletme politikaları ve kuralları</strong></li>
+            </ul>
+            <p><strong>Değiştirmek Neden Riskli ve Pahalıdır?</strong> Sistem spesifikasyonunun tam olmaması, iş süreçleriyle iç içe geçmesi, iş kurallarının belgelendirilmeden koda gömülmüş olması, eski programlama dilini bilen kalmaması ve yıllar içinde yapılan yamalarla kod yapısının bozulmuş olması temel risk nedenleridir.</p>
+
+            <h3>Kalıt Sistem Değerlendirmesi ve İş Değeri</h3>
+            <p>Sistemin iş değerini (Business Value) belirlerken 4 temel konuya bakılır:</p>
+            <ul>
+                <li><strong>Sistemin kullanımı:</strong> Az sayıda kullanıcı tarafından kullanılıyorsa değeri düşüktür.</li>
+                <li><strong>Desteklenen iş süreçleri:</strong> Verimsiz süreçlerin kullanımını zorluyorsa değeri düşüktür.</li>
+                <li><strong>Sistem güvenilirliği:</strong> Sorunlar müşteriyi olumsuz etkiliyorsa değeri düşüktür.</li>
+                <li><strong>Sistem çıktıları:</strong> İşletme bu çıktılara mecbursa (bağımlıysa) değeri yüksektir.</li>
+            </ul>
+            <p>Değerlendirme sırasında sadece geliştiriciler değil; <strong>sistem son kullanıcıları, ticari müşteriler, bölüm yöneticileri, BT yöneticileri ve üst düzey yöneticiler</strong> paydaş olarak mutlaka dikkate alınmalıdır.</p>
+
+            <h3>Kalıt Sistem Değerlendirme Matrisi (Sınav İçin Önemli)</h3>
+            <p>Kurum, eski sistemiyle ne yapacağına şu 4 stratejiden birini seçerek karar verir:</p>
+            <ol>
+                <li><strong>Düşük Kalite, Düşük İş Değeri:</strong> Sistem tamamen kullanımdan kaldırılmalıdır.</li>
+                <li><strong>Düşük Kalite, Yüksek İş Değeri:</strong> Şirket için çok önemlidir ama bakımı çok pahalıdır. Bu sistemlere <strong>yeniden mühendislik (re-engineering)</strong> yapılmalı veya uygunsa değiştirilmelidir.</li>
+                <li><strong>Yüksek Kalite, Düşük İş Değeri:</strong> Hazır bir paket sistemle (COTS) değiştirilebilir, kullanımdan kaldırılabilir veya sadece gerekli bakım yapılarak devam edilebilir.</li>
+                <li><strong>Yüksek Kalite, Yüksek İş Değeri:</strong> Normal sistem bakımı uygulanarak çalışmaya aynen devam edilmelidir.</li>
+            </ol>
         </div>
 
-        <div id="page-7" class="page">
+       <div id="page-7" class="page">
             <h2>Bölüm 9: Bakım ve Yeniden Mühendislik (Sayfa 164-183)</h2>
 
             <h3>Yazılım Bakımı (Software Maintenance)</h3>
-            <p>Program teslim edilip kullanıma sunulduktan sonra üzerinde değişiklik yapılması sürecidir. Mimaride devasa değişiklik yapılmaz. Üç türü vardır:</p>
+            <p>Bir programı kullanıma sunduktan (teslim ettikten) sonra üzerinde değişiklik yapma sürecidir. Mimaride büyük değişiklikler yapılmaz, mevcut bileşenler güncellenir. Üç temel bakım türü vardır:</p>
             <ul>
-                <li><strong>Hata Onarımları (Düzeltici):</strong> Kod, mantık veya güvenlik kusurlarını onarmak.</li>
-                <li><strong>Ortama Uyarlama:</strong> İşletim sistemi, donanım veya altyapı değiştiğinde yazılımı uydurmak.</li>
-                <li><strong>İşlevsellik Ekleme:</strong> Yeni gereksinimleri karşılamak.</li>
+                <li><strong>Hata Onarımları (Düzeltici):</strong> Sistemdeki kusurları ve güvenlik açıklarını gidermek.</li>
+                <li><strong>Ortama Uyarlama:</strong> İşletim sistemi veya donanım değiştiğinde yazılımı bu yeni ortama uydurmak.</li>
+                <li><strong>İşlevsellik Ekleme:</strong> Ortaya çıkan yeni gereksinimleri karşılamak için sisteme yeni özellikler katmak.</li>
             </ul>
-            <p><strong>Bakım Maliyeti:</strong> Sıfırdan geliştirmenin 2 ila 100 katına çıkabilir. Sistem eskidikçe ve yamalar eklendikçe yapısı bozulur, kodları kimse anlamaz. Bakım işleri yazılımcılar arasında sevilmediği için genelde tecrübesiz ekiplere verilir bu da maliyeti artırır.</p>
+            <p><strong>Maliyet Sorunu:</strong> Yazılımın bakım maliyeti, sıfırdan geliştirme maliyetinden genellikle <strong>2 ila 100 katı</strong> daha fazladır. Yazılım eskidikçe ve üzerine yeni özellikler eklendikçe yapısal olarak bozulur. Ayrıca bakım projeleri yazılımcılar arasında popüler olmadığı için genellikle deneyimsiz ekiplere verilir ve bu da maliyeti artırır.</p>
 
-            <h3>Değişiklik Tahminleme</h3>
-            <p>Hangi bileşenin sorun çıkaracağını tahmin etmek bütçe için önemlidir. Değişiklik sayısını ve süresini ölçerek "Bakım Kolaylığı" ölçülür. Düzeltici bakım isteklerindeki süre artışı bakım kolaylığının azaldığına işarettir.</p>
+            <h3>Yazılım Bakım ve Değişiklik Tahminleme</h3>
+            <p>Sistemin hangi bölümlerinin gelecekte sorun çıkaracağını tahmin etmek, bütçe oluşturmak için kritiktir.</p>
+            <ul>
+                <li>Sistemde yapılması gerekecek değişiklik sayısını; arayüzlerin karmaşıklığı ve iş süreçlerindeki değişimler etkiler.</li>
+                <li>Sistemin bakım kolaylığını ölçmek için; düzeltici bakım isteği sayısı ve bir değişikliği gerçekleştirmek için gereken ortalama süre gibi ölçütler kullanılır. Bu sürelerdeki artış, sistemin bakım kolaylığının azaldığına işarettir.</li>
+            </ul>
 
             <h3>Yeniden Yazılım Mühendisliği (Re-engineering)</h3>
-            <p>Bakım kolaylığını tamamen yitirmiş eski sistemin (Kalıt Sistemin), <strong>işlevselliği kesinlikle değiştirilmeden</strong> sadece mimari ve teknolojik olarak yeniden yapılandırılıp modern bir yapıya geçirilmesidir. Sıfırdan yazmaktan daha ucuz ve az risklidir. Kod çevirimi, tersine mühendislik ve veri temizleme süreçlerini içerir.</p>
-
-            <h3>Yeniden Düzenleme / Üretim (Refactoring)</h3>
-            <p>Yazılım değiştirildikçe oluşan bozulmaları engellemek için kod yapısında yapılan "önleyici bakım" / iyileştirme işlemidir. <strong>Programa hiçbir yeni özellik eklenmez</strong>, sadece kodun içi temizlenir. Yeniden mühendislik sistem çöktükten/eskidikten sonra yapılırken; Refactoring yazılımın tüm yaşamı boyunca sürekli yapılır.</p>
-            <p><strong>Refactoring Örnekleri:</strong></p>
+            <p>Bakım kolaylığını yitirmiş eski bir sistemin (kalıt sistemin) <strong>işlevselliğini değiştirmeden</strong> yeniden yapılandırılması veya modern bir yapıya geçirilmesi işlemidir.</p>
             <ul>
-                <li>Yinelenen (kopya) kodların tek bir metoda bağlanması.</li>
-                <li>Çok uzun metotların daha kısa metotlara parçalanması.</li>
-                <li>Uzun switch-case yapıları yerine çok biçimli (polymorphic) tasarımların kullanılması.</li>
+                <li>Sıfırdan yeni bir yazılım geliştirmeye kıyasla, hem maliyeti hem de proje riskini büyük oranda azaltır.</li>
+                <li>Süreç içerisinde; kaynak kodu dönüştürme, programı anlayıp belgelemek için tersine mühendislik, program yapısının iyileştirilmesi ve verilerin temizlenip yeniden yapılandırılması yer alır.</li>
+            </ul>
+
+            <h3>Yeniden Üretim / Düzenleme (Refactoring)</h3>
+            <p>Yazılım değiştirildikçe azalan bakım kolaylığını engellemek için kod yapısında yapılan sürekli bir iyileştirme ("önleyici bakım") sürecidir.</p>
+            <ul>
+                <li>Yeniden üretim esnasında programa <strong>kesinlikle yeni bir işlevsellik eklenmez</strong>; sadece kodun anlaşılabilirliği artırılır ve karmaşıklığı azaltılır.</li>
+                <li><strong>Önemli Fark:</strong> Yeniden mühendislik sistemin bakım maliyetleri çok arttıktan sonra yapılırken; yeniden üretim, yazılımın geliştirme süreci boyunca <em>sürekli</em> olarak uygulanır.</li>
+                <li><strong>İyileştirme Örnekleri:</strong> Yinelenen kodların tek bir metoda dönüştürülmesi, çok uzun metotların daha kısa metotlara parçalanması ve Switch-case deyimlerinin yerine çok biçimli (polymorphic) yapıların kullanılması.</li>
             </ul>
         </div>
 
